@@ -1,0 +1,88 @@
+﻿@model IEnumerable<MeetupTracker.Models.Attendee>
+
+@{
+    ViewBag.Title = "All Attendees";
+}
+
+<h2>All Attendees</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Company)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InviteDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rsvp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Attended)
+        </th>
+        <th>
+            
+        </th>
+        <th></th>
+    </tr>
+@{
+    var eventgroups = Model.GroupBy(r => r.MeetupEvent);
+}
+@foreach (var grp in eventgroups)
+{
+    <tr>
+        <td colspan="8">
+            <strong>@Html.ActionLink(grp.Key.Title, "Attendees", "Events", new { id = grp.Key.Id }, null)</strong>
+        </td>
+    </tr>
+    foreach (var item in grp)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InviteDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rsvp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Attended)
+            </td>
+            <td>
+                @if (item.Rsvp.HasValue)
+                {
+                    <em>RSVP recieved</em>
+                }
+                else
+                {
+                    <text>@Html.ActionLink("Send Invitation", "Invite", new { id = item.Id })</text>
+}
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+               
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+}
+
+</table>

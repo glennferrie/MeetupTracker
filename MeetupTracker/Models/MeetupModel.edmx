@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MeetupModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="MeetupModelStoreContainer">
+    <EntitySet Name="MeetupEvents" EntityType="MeetupModel.Store.MeetupEvents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Attendees" EntityType="MeetupModel.Store.Attendees" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="MeetupEventAttendee" Association="MeetupModel.Store.MeetupEventAttendee">
+      <End Role="MeetupEvent" EntitySet="MeetupEvents" />
+      <End Role="Attendee" EntitySet="Attendees" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="MeetupEvents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Location" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EventDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Attendees">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FullName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Company" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EmailAddress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="InviteDate" Type="datetime" Nullable="false" />
+    <Property Name="Rsvp" Type="bit" Nullable="true" />
+    <Property Name="Attended" Type="bit" Nullable="true" />
+    <Property Name="InvitationCode" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MeetupEvent_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="MeetupEventAttendee">
+    <End Role="MeetupEvent" Type="MeetupModel.Store.MeetupEvents" Multiplicity="1" />
+    <End Role="Attendee" Type="MeetupModel.Store.Attendees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MeetupEvent">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Attendee">
+        <PropertyRef Name="MeetupEvent_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="MeetupModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="MeetupModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MeetupEvents" EntityType="MeetupModel.MeetupEvent" />
+          <EntitySet Name="Attendees" EntityType="MeetupModel.Attendee" />
+          <AssociationSet Name="MeetupEventAttendee" Association="MeetupModel.MeetupEventAttendee">
+            <End Role="MeetupEvent" EntitySet="MeetupEvents" />
+            <End Role="Attendee" EntitySet="Attendees" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="MeetupEvent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <Property Name="Location" Type="String" Nullable="false" />
+          <Property Name="EventDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Attendees" Relationship="MeetupModel.MeetupEventAttendee" FromRole="MeetupEvent" ToRole="Attendee" />
+        </EntityType>
+        <EntityType Name="Attendee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" Nullable="false" />
+          <Property Name="Company" Type="String" Nullable="true" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" />
+          <Property Name="InviteDate" Type="DateTime" Nullable="false" />
+          <Property Name="Rsvp" Type="Boolean" Nullable="true" />
+          <Property Name="Attended" Type="Boolean" Nullable="true" />
+          <NavigationProperty Name="MeetupEvent" Relationship="MeetupModel.MeetupEventAttendee" FromRole="Attendee" ToRole="MeetupEvent" />
+          <Property Name="InvitationCode" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="MeetupEventAttendee">
+          <End Type="MeetupModel.MeetupEvent" Role="MeetupEvent" Multiplicity="1" />
+          <End Type="MeetupModel.Attendee" Role="Attendee" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MeetupModelStoreContainer" CdmEntityContainer="MeetupModelContainer">
+    <EntitySetMapping Name="MeetupEvents">
+      <EntityTypeMapping TypeName="IsTypeOf(MeetupModel.MeetupEvent)">
+        <MappingFragment StoreEntitySet="MeetupEvents">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+          <ScalarProperty Name="EventDate" ColumnName="EventDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Attendees">
+      <EntityTypeMapping TypeName="IsTypeOf(MeetupModel.Attendee)">
+        <MappingFragment StoreEntitySet="Attendees">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Company" ColumnName="Company" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="InviteDate" ColumnName="InviteDate" />
+          <ScalarProperty Name="Rsvp" ColumnName="Rsvp" />
+          <ScalarProperty Name="Attended" ColumnName="Attended" />
+          <ScalarProperty Name="InvitationCode" ColumnName="InvitationCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="MeetupEventAttendee" TypeName="MeetupModel.MeetupEventAttendee" StoreEntitySet="Attendees">
+      <EndProperty Name="MeetupEvent">
+        <ScalarProperty Name="Id" ColumnName="MeetupEvent_Id" />
+      </EndProperty>
+      <EndProperty Name="Attendee">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

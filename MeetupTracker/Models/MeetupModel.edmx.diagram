@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="88d38a4ad40e49dc8030dd238918c87f" Name="Diagram1" >
+        <EntityTypeShape EntityType="MeetupModel.MeetupEvent" Width="1.5" PointX="1.25" PointY="0.5" />
+        <EntityTypeShape EntityType="MeetupModel.Attendee" Width="1.5" PointX="4.75" PointY="1.625" />
+        <AssociationConnector Association="MeetupModel.MeetupEventAttendee" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

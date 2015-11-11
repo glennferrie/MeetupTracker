@@ -1,0 +1,80 @@
+﻿@model MeetupTracker.Models.Attendee
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Attendee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InviteDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InviteDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rsvp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rsvp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Attended)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Attended)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvitationCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvitationCode)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
